@@ -73,7 +73,7 @@ def show_table(table_name):
         database = session['database']
 
         # Check if the session has timed out
-        last_active = make_naive(session.get('last_active'))  # Ensure it's naive
+        last_active = make_naive(session.get('last_active'))
         if last_active and (make_naive(datetime.now()) - last_active) > timedelta(minutes=10):
             session.pop('host', None)
             session.pop('user', None)
@@ -82,7 +82,7 @@ def show_table(table_name):
             session.pop('last_active', None)
             return "Session timed out. Please reconnect."
 
-        session['last_active'] = make_naive(datetime.now())  # Update last active time
+        session['last_active'] = make_naive(datetime.now())
 
         connection = create_server_connection(host, user, password, database)
         if connection:
