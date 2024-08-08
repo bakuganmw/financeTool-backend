@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}{{ table_name }} Data{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Data from {{ table_name }}</h2>
+<table class="table table-striped">
+    <thead class="thead-dark">
+        <tr>
+            {% for header in results[0].keys() %}
+            <th>{{ header }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in results %}
+        <tr>
+            {% for value in row.values() %}
+            <td>{{ value }}</td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<a href="{{ url_for('index') }}" class="btn btn-secondary mt-3">Back to Tables</a>
+{% endblock %}

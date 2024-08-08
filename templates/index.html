@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}Connect to Database{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Connect to MySQL Database</h2>
+<form method="POST" class="needs-validation" novalidate>
+    <div class="form-group">
+        <label for="host">Host:</label>
+        <input type="text" class="form-control" id="host" name="host" required>
+        <div class="invalid-feedback">
+            Please provide a host.
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="user">User:</label>
+        <input type="text" class="form-control" id="user" name="user" required>
+        <div class="invalid-feedback">
+            Please provide a username.
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" class="form-control" id="password" name="password" required>
+        <div class="invalid-feedback">
+            Please provide a password.
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="database">Database:</label>
+        <input type="text" class="form-control" id="database" name="database" required>
+        <div class="invalid-feedback">
+            Please provide a database name.
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Connect</button>
+</form>
+
+<!-- Disconnected Modal -->
+<div class="modal fade" id="disconnectedModal" tabindex="-1" role="dialog" aria-labelledby="disconnectedModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="disconnectedModalLabel">Disconnected</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                You have been disconnected from the database.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    $(document).ready(function() {
+        {% if request.args.get('disconnected') %}
+            $('#disconnectedModal').modal('show');
+        {% endif %}
+    });
+</script>
+{% endblock %}

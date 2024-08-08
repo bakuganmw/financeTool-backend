@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Select Table{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Select a Table</h2>
+<form method="GET" action="{{ url_for('show_table', table_name='') }}">
+    <input type="hidden" name="host" value="{{ connection_info[0] }}">
+    <input type="hidden" name="user" value="{{ connection_info[1] }}">
+    <input type="hidden" name="password" value="{{ connection_info[2] }}">
+    <input type="hidden" name="database" value="{{ connection_info[3] }}">
+    <div class="form-group">
+        <label for="tables">Tables:</label>
+        <select id="tables" name="table_name" class="form-control" onchange="this.form.action=this.form.action + this.value; this.form.submit();">
+            <option value="">-- Select a table --</option>
+            {% for table in tables %}
+            <option value="{{ table }}">{{ table }}</option>
+            {% endfor %}
+        </select>
+    </div>
+</form>
+
+<a href="{{ url_for('disconnect') }}" class="btn btn-danger mt-3">Disconnect</a>  <!-- Updated to Disconnect with red color -->
+{% if results %}
+<h2 class="mt-5">Data from {{ table_name }}</h2>
+<table class="table table-striped table-responsive">
+    <thead class="thead-dark">
+        <tr>
+            {% for header in results[0].keys() %}
+            <th>{{ header }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in results %}
+        <tr>
+            {% for value in row.values() %}
+            <td>{{ value }}</td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+
+{% endblock %}
